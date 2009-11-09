@@ -1,4 +1,4 @@
-package com.restbucks;
+package com.restbucks.restfulie;
 
 public interface StateMachineController<T> {
 

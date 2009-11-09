@@ -3,6 +3,7 @@
 <wb-module deploy-name="rest-chapter04-service">
 <wb-resource deploy-path="/" source-path="/WebContent"/>
 <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+<wb-resource deploy-path="/WEB-INF/classes" source-path="/restfulie"/>
 <property name="java-output-path"/>
 <property name="context-root" value="chapter05-service"/>
 </wb-module>

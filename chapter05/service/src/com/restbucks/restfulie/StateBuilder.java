@@ -1,4 +1,6 @@
-package com.restbucks;
+package com.restbucks.restfulie;
+
+import com.restbucks.Dependency;
 
 public class StateBuilder {
 
@@ -16,6 +18,10 @@ public class StateBuilder {
 	
 	public StateBuilder when(Dependency dependency) {
 		return this;
+	}
+
+	public State build() {
+		return null;
 	}
 
 }

@@ -34,6 +34,7 @@ public class OrderDatabase {
 	}
 	
 	public synchronized void save(Order order) {
+		order.setStatus("unpaid");
 		total++;
 		String id = String.valueOf(total);
 		order.setId(id);

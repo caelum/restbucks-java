@@ -11,6 +11,8 @@ public class Order {
 	private Location location;
 	private List<Item> items;
 	
+	private String status;
+	
 /*	public List<String> getPossibleTransitions() {
 		
 	}*/
@@ -34,6 +36,16 @@ public class Order {
 	}
 	public void setItems(List<Item> items) {
 		this.items = items;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getStatus() {
+		return status;
+	}
+	
+	public void cancel() {
+		status = "cancelled";
 	}
 
 }

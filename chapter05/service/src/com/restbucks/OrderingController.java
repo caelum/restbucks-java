@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.caelum.vraptor.Consumes;
+import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
@@ -36,9 +37,9 @@ public class OrderingController {
 	}
 
 	@Get
-	@Path("/order/{orderId}")
-	public void get(String orderId) throws IOException {
-		Order order = database.getOrder(orderId);
+	@Path("/order/{id}")
+	public void get(String id) throws IOException {
+		Order order = database.getOrder(id);
 		if (order != null) {
 			result.use(xml()).from(order).namespace(
 					"http://restbucks.com/order", "o").include("items"). serialize();
@@ -55,15 +56,27 @@ public class OrderingController {
 		routes.uriFor(OrderingController.class).get(order.getId());
 		status.created(routes.getApplicationPath() + routes.getUri());
 	}
-
+	
+	@Delete
+	@Path("/order/{id}")
+	public void cancel(String id) throws IOException {
+		Order order = database.getOrder(id);
+		if (order != null) {
+			order.cancel();
+			status.ok();
+		} else {
+			status.notFound();
+		}
+	}
+	
 	@Get
 	@Path("/order")
 	public List<Order> index() throws IOException {
 		return new ArrayList<Order>(database.all());
 	}
 
-	/*public Object payThisGuy() {
+	public Object payThisGuy() {
 		return null;
-	}*/
+	}
 
 }
