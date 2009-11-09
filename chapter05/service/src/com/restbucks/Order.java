@@ -1,8 +1,8 @@
 package com.restbucks;
 
-import java.io.IOException;
 import java.util.List;
 
+import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.rest.Restfulie;
 import br.com.caelum.vraptor.rest.StateResource;
 import br.com.caelum.vraptor.rest.Transition;
