@@ -1,25 +1,21 @@
 package com.restbucks;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import br.com.caelum.vraptor.rest.DefaultStateControl;
+import br.com.caelum.vraptor.rest.Restfulie;
 import br.com.caelum.vraptor.rest.State;
 import br.com.caelum.vraptor.rest.StateControl;
 import br.com.caelum.vraptor.rest.Transition;
 
 public class OrderStateControl implements StateControl {
 	
-	private final DefaultStateControl control;
-
-	public OrderStateControl(DefaultStateControl control) {
-		this.control = control;
-	}
 	
 	public String getStateField() {
 		return "status";
 	}
 	
-	public List<Transition> getTransitions() {
+	public List<Transition> getTransitions(Restfulie control) {
 		control.transition("cancel").resultsInStatus("cancelled").uses(OrderingController.class);
 		return control.getTransitions();
 				//control.transition("pay").resultsInStatus("payed").uses(OrderingController.class).payThisGuy(), // another method
@@ -27,8 +23,9 @@ public class OrderStateControl implements StateControl {
 	}
 	
 	public List<State> getStates() {
-		control.state("unpaid").allow("cancel");
-		return control.getStates();
+		return new ArrayList<State>();
+	//	control.state("unpaid").allow("cancel");
+		//return control.getStates();
 //		
 //				control.state("ready").allow("receive").when(new Dependency<Order>() {
 //					public boolean allows(Order order) {

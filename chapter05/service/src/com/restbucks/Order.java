@@ -2,10 +2,14 @@ package com.restbucks;
 
 import java.util.List;
 
+import br.com.caelum.vraptor.rest.Restfulie;
+import br.com.caelum.vraptor.rest.StateResource;
+import br.com.caelum.vraptor.rest.Transition;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("order")
-public class Order {
+public class Order implements StateResource{
 
 	private String id;
 	private Location location;
@@ -46,6 +50,11 @@ public class Order {
 	
 	public void cancel() {
 		status = "cancelled";
+	}
+
+	public List<Transition> getFollowingTransitions(Restfulie control) {
+		control.transition("cancel").resultsInStatus("cancelled").uses(OrderingController.class);
+		return control.getTransitions();
 	}
 
 }
