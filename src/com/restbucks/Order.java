@@ -8,6 +8,10 @@ public class Order {
 	private Location location;
 	private List<Item> items;
 	
+/*	public List<String> getPossibleTransitions() {
+		
+	}*/
+	
 	public enum Location {takeAway, drinkIn};
 	
 	public String getId() {

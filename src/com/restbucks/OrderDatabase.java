@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.caelum.vraptor.ioc.ApplicationScoped;
+import br.com.caelum.vraptor.ioc.Component;
+
 import com.restbucks.Item.Coffee;
 import com.restbucks.Item.Milk;
 import com.restbucks.Item.Size;
 import com.restbucks.Order.Location;
 
+@Component
+@ApplicationScoped
 public class OrderDatabase {
 
 	private static int orderCounter = 0;
-	private static OrderDatabase theDatabase = new OrderDatabase();
 	private Map<String, Order> orders = new HashMap<String, Order>();
 	
-	static {
+	public OrderDatabase() {
 	    Item item = new Item(Coffee.latte, 1, Milk.whole, Size.small);
 	    ArrayList<Item> items = new ArrayList<Item>();
 	    items.add(item);
@@ -25,11 +29,7 @@ public class OrderDatabase {
 	    order.setItems(items);
 	    order.setLocation(Location.takeAway);
 	    
-	    theDatabase.saveOrder(order.getId(), order);
-	}
-	
-	public static OrderDatabase getDatabase() {
-		return theDatabase;
+	    this.saveOrder(order.getId(), order);
 	}
 	
 	public synchronized String saveOrder(Order order) {
