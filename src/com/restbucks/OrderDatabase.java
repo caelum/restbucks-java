@@ -34,8 +34,9 @@ public class OrderDatabase {
 	
 	public synchronized String saveOrder(Order order) {
 		String id = String.valueOf(orderCounter);
-		orders.put(id, order);
 		orderCounter++;
+		order.setId(id);
+		orders.put(id, order);
 		return id;
 	}
 	
