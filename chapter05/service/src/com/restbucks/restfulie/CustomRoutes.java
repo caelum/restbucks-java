@@ -22,11 +22,11 @@ public class CustomRoutes implements RoutesConfiguration{
 		Class<? extends TypeVariable> entityType = types[0].getClass();
 		try {
 			Class<?> stateType = Class.forName(entityType.getName() + "StateControl");
-			StateControl control = (StateControl) stateType.newInstance();
-			List<Transition> transitions = control.getTransitions();
-			for (Transition transition : transitions) {
-				
-			}
+			//StateControl control = (StateControl) stateType.newInstance();
+			//List<Transition> transitions = control.getTransitions();
+			//for (Transition transition : transitions) {
+			//	
+			//}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

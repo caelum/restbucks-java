@@ -9,7 +9,11 @@ import br.com.caelum.vraptor.rest.Transition;
 
 public class OrderStateControl implements StateControl {
 	
-	private final DefaultStateControl control = new DefaultStateControl();
+	private final DefaultStateControl control;
+
+	public OrderStateControl(DefaultStateControl control) {
+		this.control = control;
+	}
 	
 	public String getStateField() {
 		return "status";
