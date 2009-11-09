@@ -8,6 +8,8 @@ import br.com.caelum.vraptor.http.route.Router;
 import br.com.caelum.vraptor.http.route.RoutesConfiguration;
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
+import br.com.caelum.vraptor.rest.StateControl;
+import br.com.caelum.vraptor.rest.Transition;
 
 import com.restbucks.OrderMachineController;
 

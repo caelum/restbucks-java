@@ -26,6 +26,7 @@ public class OrderDatabase {
 	    items.add(item);
 	    
 	    Order order = new Order();
+	    order.setStatus("unpaid");
 	    order.setId("1");
 	    order.setItems(items);
 	    order.setLocation(Location.takeAway);

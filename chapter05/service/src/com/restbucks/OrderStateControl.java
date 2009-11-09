@@ -2,10 +2,10 @@ package com.restbucks;
 
 import java.util.List;
 
-import com.restbucks.restfulie.DefaultStateControl;
-import com.restbucks.restfulie.State;
-import com.restbucks.restfulie.StateControl;
-import com.restbucks.restfulie.Transition;
+import br.com.caelum.vraptor.rest.DefaultStateControl;
+import br.com.caelum.vraptor.rest.State;
+import br.com.caelum.vraptor.rest.StateControl;
+import br.com.caelum.vraptor.rest.Transition;
 
 public class OrderStateControl implements StateControl {
 	
