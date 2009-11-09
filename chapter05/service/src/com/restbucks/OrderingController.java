@@ -38,7 +38,7 @@ public class OrderingController {
 
 	@Get
 	@Path("/order/{id}")
-	public void get(String id) throws IOException {
+	public void get(String id) {
 		Order order = database.getOrder(id);
 		if (order != null) {
 			result.use(xml()).from(order).namespace(
@@ -51,15 +51,15 @@ public class OrderingController {
 	@Post
 	@Path("/order")
 	@Consumes("application/xml")
-	public void add(Order order) throws IOException {
+	public void add(Order order) {
 		database.save(order);
 		routes.uriFor(OrderingController.class).get(order.getId());
-		status.created(routes.getApplicationPath() + routes.getUri());
+		status.created(routes.getUri());
 	}
 	
 	@Delete
 	@Path("/order/{id}")
-	public void cancel(String id) throws IOException {
+	public void cancel(String id) {
 		Order order = database.getOrder(id);
 		if (order != null) {
 			order.cancel();
