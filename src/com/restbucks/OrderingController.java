@@ -3,14 +3,12 @@ package com.restbucks;
 import static br.com.caelum.vraptor.view.Results.xml;
 
 import java.io.IOException;
-import java.net.URI;
 
 import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.http.route.Router;
 import br.com.caelum.vraptor.view.Status;
 
 /**
