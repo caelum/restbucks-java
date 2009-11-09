@@ -8,6 +8,7 @@ import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Status;
 
@@ -16,6 +17,7 @@ import br.com.caelum.vraptor.view.Status;
  * 
  * @author guilherme silveira
  */
+@Resource
 public class OrderingController {
 
 	private final Result result;
@@ -31,7 +33,7 @@ public class OrderingController {
 	}
 
 	@Get
-	@Path("/{orderId}")
+	@Path("/order/{orderId}")
 	public void get(String orderId) throws IOException {
 		Order order = database.getOrder(orderId);
 		if (order != null) {
@@ -43,7 +45,7 @@ public class OrderingController {
 	}
 	
 	@Post
-	@Path("/")
+	@Path("/order")
 	@Consumes("application/xml")
 	public void add(Order order) throws IOException {
 		database.saveOrder(order);
