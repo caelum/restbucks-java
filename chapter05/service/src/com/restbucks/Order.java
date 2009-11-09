@@ -18,10 +18,6 @@ public class Order implements StateResource{
 	
 	private String status;
 	
-/*	public List<String> getPossibleTransitions() {
-		
-	}*/
-	
 	public enum Location {takeAway, drinkIn};
 	
 	public String getId() {
@@ -55,7 +51,8 @@ public class Order implements StateResource{
 
 	public List<Transition> getFollowingTransitions(Restfulie control) {
 		if(status.equals("unpaid")) {
-			control.transition("cancel").resultsInStatus("cancelled").uses(OrderingController.class).cancel(id);
+			control.transition("show").uses(OrderingController.class).get(id);
+			control.transition("cancel").uses(OrderingController.class).cancel(id);
 		}
 		return control.getTransitions();
 	}
