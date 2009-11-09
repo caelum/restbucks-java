@@ -16,7 +16,7 @@ import com.restbucks.Order.Location;
 @ApplicationScoped
 public class OrderDatabase {
 
-	private static int orderCounter = 0;
+	private static int total = 1;
 	private Map<String, Order> orders = new HashMap<String, Order>();
 	
 	public OrderDatabase() {
@@ -25,22 +25,21 @@ public class OrderDatabase {
 	    items.add(item);
 	    
 	    Order order = new Order();
-	    order.setId("1234");
+	    order.setId("1");
 	    order.setItems(items);
 	    order.setLocation(Location.takeAway);
 	    
-	    this.saveOrder(order.getId(), order);
+	    save(order.getId(), order);
 	}
 	
-	public synchronized String saveOrder(Order order) {
-		String id = String.valueOf(orderCounter);
-		orderCounter++;
+	public synchronized void save(Order order) {
+		total++;
+		String id = String.valueOf(total);
 		order.setId(id);
 		orders.put(id, order);
-		return id;
 	}
 	
-	public void saveOrder(String id, Order order) {
+	public void save(String id, Order order) {
 		orders.put(id, order);
 	}
 	

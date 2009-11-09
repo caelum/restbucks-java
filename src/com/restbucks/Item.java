@@ -1,5 +1,8 @@
 package com.restbucks;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias("item")
 public class Item {
 	enum Coffee {latte, cappuccino, espresso};
 	enum Milk {skim, semi, whole};

@@ -10,6 +10,7 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.core.Routes;
 import br.com.caelum.vraptor.view.Status;
 
 /**
@@ -25,11 +26,11 @@ public class OrderingController {
 	private final OrderDatabase database;
 	private final Routes routes;
 
-	public OrderingController(Result result, Status status, OrderDatabase database, Routes router) {
+	public OrderingController(Result result, Status status, OrderDatabase database, Routes routes) {
 		this.result = result;
 		this.status = status;
 		this.database = database;
-		this.routes = router;
+		this.routes = routes;
 	}
 
 	@Get
@@ -48,10 +49,9 @@ public class OrderingController {
 	@Path("/order")
 	@Consumes("application/xml")
 	public void add(Order order) throws IOException {
-		database.saveOrder(order);
+		database.save(order);
 		routes.uriFor(OrderingController.class).get(order.getId());
-		status.header("Location", routes.getUri());
-		status.created();
+		status.created(routes.getApplicationPath() + routes.getUri());
 	}
 
 	/*public Object payThisGuy() {

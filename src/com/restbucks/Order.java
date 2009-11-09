@@ -2,6 +2,9 @@ package com.restbucks;
 
 import java.util.List;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias("order")
 public class Order {
 
 	private String id;
