@@ -39,7 +39,7 @@ public class OrderingController {
 		Order order = database.getOrder(orderId);
 		if (order != null) {
 			result.use(xml()).from(order).namespace(
-					"http://restbucks.com/order", "o"). serialize();
+					"http://restbucks.com/order", "o").include("items"). serialize();
 		} else {
 			status.notFound();
 		}
