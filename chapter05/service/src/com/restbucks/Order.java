@@ -47,7 +47,7 @@ public class Order implements StateResource{
 	public void cancel() {
 		status = "cancelled";
 	}
-
+	
 	public List<Transition> getFollowingTransitions(Restfulie control) {
 		if(status.equals("unpaid")) {
 			control.transition(OrderingController.class).get(this);

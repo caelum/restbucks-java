@@ -59,14 +59,11 @@ public class OrderingController {
 	
 	@Delete
 	@Path("/order/{order.id}")
+	@Transition
 	public void cancel(Order order) {
 		order = database.getOrder(order.getId());
-		if (order != null && order.getStatus().equals("unpaid")) {
-			order.cancel();
-			status.ok();
-		} else {
-			status.notFound();
-		}
+		order.cancel();
+		status.ok();
 	}
 	
 	@Get
