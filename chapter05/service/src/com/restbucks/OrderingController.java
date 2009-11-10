@@ -37,9 +37,9 @@ public class OrderingController {
 	}
 
 	@Get
-	@Path("/order/{id}")
-	public void get(String id) {
-		Order order = database.getOrder(id);
+	@Path("/order/{order.id}")
+	public void get(Order order) {
+		order = database.getOrder(order.getId());
 		if (order != null) {
 			result.use(xml()).from(order).namespace(
 					"http://restbucks.com/order", "o").include("items"). serialize();
@@ -53,15 +53,15 @@ public class OrderingController {
 	@Consumes("application/xml")
 	public void add(Order order) {
 		database.save(order);
-		routes.uriFor(OrderingController.class).get(order.getId());
+		routes.uriFor(OrderingController.class).get(order);
 		status.created(routes.getUri());
 	}
 	
 	@Delete
-	@Path("/order/{id}")
-	public void cancel(String id) {
-		Order order = database.getOrder(id);
-		if (order != null) {
+	@Path("/order/{order.id}")
+	public void cancel(Order order) {
+		order = database.getOrder(order.getId());
+		if (order != null && order.getStatus().equals("unpaid")) {
 			order.cancel();
 			status.ok();
 		} else {

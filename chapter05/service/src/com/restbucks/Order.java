@@ -2,7 +2,6 @@ package com.restbucks;
 
 import java.util.List;
 
-import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.rest.Restfulie;
 import br.com.caelum.vraptor.rest.StateResource;
 import br.com.caelum.vraptor.rest.Transition;
@@ -51,8 +50,8 @@ public class Order implements StateResource{
 
 	public List<Transition> getFollowingTransitions(Restfulie control) {
 		if(status.equals("unpaid")) {
-			control.transition(OrderingController.class).get(id);
-			control.transition("cancel").uses(OrderingController.class).cancel(id);
+			control.transition(OrderingController.class).get(this);
+			control.transition("cancel").uses(OrderingController.class).cancel(this);
 		}
 		return control.getTransitions();
 	}
