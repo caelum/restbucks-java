@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.caelum.restfulie.vraptor.Transition;
 import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
@@ -72,8 +73,11 @@ public class OrderingController {
 		return new ArrayList<Order>(database.all());
 	}
 
-	public Object payThisGuy() {
-		return null;
+	@Post
+	@Path("/order/{order.id}/pay")
+	@Consumes("application/xml")
+	public void pay(Order order, Payment payment) {
+		
 	}
 
 }
