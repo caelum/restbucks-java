@@ -25,11 +25,8 @@ public class OrderDatabase {
 	    ArrayList<Item> items = new ArrayList<Item>();
 	    items.add(item);
 	    
-	    Order order = new Order();
-	    order.setStatus("unpaid");
+	    Order order = new Order("unpaid", items, Location.takeAway);
 	    order.setId("1");
-	    order.setItems(items);
-	    order.setLocation(Location.takeAway);
 	    
 	    save(order.getId(), order);
 	}

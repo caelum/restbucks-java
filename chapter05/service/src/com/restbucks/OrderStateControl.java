@@ -1,8 +1,8 @@
 package com.restbucks;
 
+import br.com.caelum.restfulie.vraptor.StateControl;
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
-import br.com.caelum.vraptor.rest.StateControl;
 
 @Component
 @ApplicationScoped

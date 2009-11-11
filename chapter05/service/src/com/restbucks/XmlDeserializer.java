@@ -23,7 +23,6 @@ public class XmlDeserializer extends XStreamXmlDeserializer {
 	@Override
 	protected XStream getXStream() {
 		XStream instance = super.getXStream();
-		instance.processAnnotations(Order.class);
 		instance.processAnnotations(Item.class);
 		return instance;
 	}

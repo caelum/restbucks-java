@@ -1,15 +1,10 @@
 package com.restbucks.restfulie;
 
 import java.lang.reflect.TypeVariable;
-import java.util.Iterator;
-import java.util.List;
 
 import br.com.caelum.vraptor.http.route.Router;
 import br.com.caelum.vraptor.http.route.RoutesConfiguration;
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
-import br.com.caelum.vraptor.ioc.Component;
-import br.com.caelum.vraptor.rest.StateControl;
-import br.com.caelum.vraptor.rest.Transition;
 
 import com.restbucks.OrderMachineController;
 

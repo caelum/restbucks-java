@@ -16,6 +16,7 @@ import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.core.Routes;
 import br.com.caelum.vraptor.view.Status;
+import br.com.caelum.vraptor.view.XmlSerializer;
 
 /**
  * Ordering system provides two services: order retrieval and insertion.
@@ -42,8 +43,10 @@ public class OrderingController {
 	public void get(Order order) {
 		order = database.getOrder(order.getId());
 		if (order != null) {
-			result.use(xml()).from(order).namespace(
-					"http://restbucks.com/order", "o").include("items"). serialize();
+			XmlSerializer serializer = result.use(xml()).from(order).namespace(
+					"http://restbucks.com/order", "o");
+			serializer.include("items");
+			serializer.include("payment").serialize();
 		} else {
 			status.notFound();
 		}
@@ -76,8 +79,11 @@ public class OrderingController {
 	@Post
 	@Path("/order/{order.id}/pay")
 	@Consumes("application/xml")
+	@Transition
 	public void pay(Order order, Payment payment) {
-		
+		order = database.getOrder(order.getId());
+		order.pay(payment);
+		status.ok();
 	}
 
 }

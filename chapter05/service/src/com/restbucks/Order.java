@@ -1,14 +1,12 @@
 package com.restbucks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.caelum.vraptor.rest.Restfulie;
 import br.com.caelum.vraptor.rest.StateResource;
 import br.com.caelum.vraptor.rest.Transition;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
-@XStreamAlias("order")
 public class Order implements StateResource{
 
 	private String id;
@@ -16,29 +14,23 @@ public class Order implements StateResource{
 	private List<Item> items;
 	
 	private String status;
+	private Payment payment;
 	
 	public enum Location {takeAway, drinkIn};
 	
+	public Order(String status, List<Item> items, Location location) {
+		this.status = status;
+		this.items = items;
+		this.location = location;
+	}
+	
+	public Order() {
+	}
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public Location getLocation() {
-		return location;
-	}
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-	public List<Item> getItems() {
-		return items;
-	}
-	public void setItems(List<Item> items) {
-		this.items = items;
-	}
-	public void setStatus(String status) {
-		this.status = status;
 	}
 	public String getStatus() {
 		return status;
@@ -56,5 +48,12 @@ public class Order implements StateResource{
 		}
 		return control.getTransitions();
 	}
+	public void pay(Payment payment) {
+		status = "paid";
+		this.payment = payment;
+	}
+public void setStatus(String status) {
+	this.status = status;
+}
 
 }

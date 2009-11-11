@@ -1,10 +1,9 @@
 package com.restbucks;
 
-import javax.servlet.http.HttpServletRequest;
-
 import br.com.caelum.restfulie.vraptor.StateControlInterceptor;
 import br.com.caelum.vraptor.Intercepts;
-import br.com.caelum.vraptor.core.MethodInfo;
+import br.com.caelum.vraptor.core.RequestInfo;
+import br.com.caelum.vraptor.core.Routes;
 import br.com.caelum.vraptor.rest.Restfulie;
 import br.com.caelum.vraptor.view.Status;
 
@@ -15,8 +14,8 @@ import br.com.caelum.vraptor.view.Status;
 @Intercepts
 public class OrderControllerInterceptor extends StateControlInterceptor<Order>{
 	
-	public OrderControllerInterceptor(OrderStateControl control, Restfulie restfulie, Status status, MethodInfo info, HttpServletRequest request) {
-		super(control, restfulie, status, info, request);
+	public OrderControllerInterceptor(OrderStateControl control, Restfulie restfulie, Status status, RequestInfo info, Routes routes) {
+		super(control, restfulie, status, info, routes);
 	}
 
 }
