@@ -86,4 +86,15 @@ public class OrderingController {
 		status.ok();
 	}
 
+	@Get
+	@Path("/order/{order.id}/checkPaymentInfo")
+	public void checkPayment(Order order) {
+		order = database.getOrder(order.getId());
+		if (order != null) {
+			result.use(xml()).from(order.getPayment()).serialize();
+		} else {
+			status.notFound();
+		}
+	}
+
 }

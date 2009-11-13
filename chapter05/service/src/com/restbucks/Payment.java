@@ -10,5 +10,14 @@ public class Payment {
 	private int expiryYear;
 	private BigDecimal amount;
 
+	public Payment(String cardNumber, String cardholderName, int expiryMonth,
+			int expiryYear, BigDecimal amount) {
+		super();
+		this.cardNumber = cardNumber;
+		this.cardholderName = cardholderName;
+		this.expiryMonth = expiryMonth;
+		this.expiryYear = expiryYear;
+		this.amount = amount;
+	}
 
 }
