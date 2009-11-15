@@ -23,6 +23,11 @@ public class Order {
 	}
 
 	public Order() {
+		this.items = new ArrayList<Item>();
+	}
+	
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	public String getId() {
@@ -52,6 +57,10 @@ public class Order {
 	
 	public Payment getPayment() {
 		return payment;
+	}
+
+	public void add(Item item) {
+		this.items.add(item);
 	}
 
 }

@@ -3,6 +3,7 @@ package br.com.caelum.restbucks.model;
 import br.com.caelum.restbucks.model.Item.Coffee;
 import br.com.caelum.restbucks.model.Item.Milk;
 import br.com.caelum.restbucks.model.Item.Size;
+import br.com.caelum.restbucks.model.Order.Location;
 
 public class Ordering {
 
@@ -16,6 +17,7 @@ public class Ordering {
 		int quantity = random(2, 5);
 		for (int i = 0; i < quantity; i++) {
 			Item item = new Item(random(Coffee.class), random(1, 3), random(Milk.class), random(Size.class));
+			order.add(item);
 		}
 		return this;
 	}
@@ -29,6 +31,8 @@ public class Ordering {
 	}
 
 	public Order build() {
+		order.setLocation(random(Location.class));
+		order.setStatus("unpaid");
 		return this.order;
 	}
 

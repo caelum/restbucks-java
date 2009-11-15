@@ -2,15 +2,19 @@ package br.com.caelum.restbucks;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import br.com.caelum.restbucks.model.Order;
+import br.com.caelum.restfulie.Transition;
 import static br.com.caelum.restbucks.model.Ordering.*;
+import static br.com.caelum.restfulie.EntryPointService.*;
+import static br.com.caelum.restfulie.Restfulie.resource;
 
 public class Entry {
 	
-	public static void main(String[] args) throws URISyntaxException {
+	public static void main(String[] args) throws Exception {
 		URI uri = processCommandLineArgs(args);
-		happyPathTest(serviceUri);
+		happyPathTest(uri);
 //        exampleForBook(serviceUri);
     }
 	    
@@ -66,11 +70,13 @@ public class Entry {
         // Place the order
         System.out.println(String.format("About to start happy path test. Placing order at [%s] via POST", serviceUri.toString()));
         Order order = order().withRandomItems().build();
-        service(serviceUri).post(order);
-        
-        
-        // OrderRepresentation representation = client.resource(serviceUri).accept(RESTBUCKS_MEDIA_TYPE).type(RESTBUCKS_MEDIA_TYPE).post(OrderRepresentation.class, new ClientOrder(order));
-        System.out.println(String.format("Order placed at [%s]", orderRepresentation.getLatestLink().getUri().toString()));
+        order = service(serviceUri).custom(order).include("items").post();
+        List<Transition> transitions = resource(order).getTransitions();
+        for (Transition transition : transitions) {
+			System.out.println("Found " + transition.getRel() + " @ " + transition.getHref());
+		}
+        //  resource(order).getTransition("latest").getHref()
+        //System.out.println(String.format("Order placed at [%s]", order.getLatestLink().getUri().toString()));
         
         // Try to update a different order
 //        System.out.println(String.format("About to update an order with bad URI [%s] via POST", orderRepresentation.getUpdateLink().getUri().toString() + "/bad-uri"));
