@@ -4,69 +4,62 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import br.com.caelum.restbucks.model.Order;
+import static br.com.caelum.restbucks.model.Ordering.*;
 
 public class Entry {
 	
 	public static void main(String[] args) throws URISyntaxException {
 		URI uri = processCommandLineArgs(args);
-		 happyPathTest(serviceUri);
-        exampleForBook(serviceUri);
+		happyPathTest(serviceUri);
+//        exampleForBook(serviceUri);
     }
 	    
     private static void exampleForBook(URI entryPointUri) {
-        Order order = order().withRandomItems().build();
-        
-        PlaceOrderActivity placeOrderActivity = new PlaceOrderActivity();
-        placeOrderActivity.placeOrder(order, entryPointUri);
-        ClientOrder createdOrder = placeOrderActivity.getOrder();
-        // Do something with the order
-        Actions actions = placeOrderActivity.getActions();
-        
-        if(actions.has(UpdateOrderActivity.class)) {
-            UpdateOrderActivity updateOrderActivity = actions.get(UpdateOrderActivity.class);
-            createdOrder = new ClientOrder(order().withRandomItems().build());
-            updateOrderActivity.updateOrder(createdOrder.getOrder());
-            actions = updateOrderActivity.getActions();
-            createdOrder = updateOrderActivity.getOrder();
-        }
-                
-        if(actions.has(PaymentActivity.class)) {
-            PaymentActivity paymentActivity = actions.get(PaymentActivity.class);
-            paymentActivity.payForOrder(new Payment(createdOrder.getCost(), "Martin Fowler", "1234567890", 12, 2121));
-            actions = paymentActivity.getActions();
-        }
-        
-        if(actions.has(GetReceiptActivity.class)) {
-            GetReceiptActivity getReceiptActivity = actions.get(GetReceiptActivity.class);
-            getReceiptActivity.getReceiptForOrder();
-            // Store the receipt
-            fileReceipt(getReceiptActivity.getReceipt());
-            actions = getReceiptActivity.getActions();
-        }
-        
-        if(actions.has(ReadOrderActivity.class)) {
-            ReadOrderActivity readOrderActivity = actions.get(ReadOrderActivity.class);
-            readOrderActivity.readOrder();
-            ClientOrder baristaOrder = readOrderActivity.getOrder();
-            while(baristaOrder.getStatus() != OrderStatus.READY) {
-                hangAround(ONE_MINUTE);
-                readOrderActivity = actions.get(ReadOrderActivity.class);
-                baristaOrder = readOrderActivity.getOrder();
-            }
-        }
+//        Order order = order().withRandomItems().build();
+//        
+//        PlaceOrderActivity placeOrderActivity = new PlaceOrderActivity();
+//        placeOrderActivity.placeOrder(order, entryPointUri);
+//        ClientOrder createdOrder = placeOrderActivity.getOrder();
+//        // Do something with the order
+//        Actions actions = placeOrderActivity.getActions();
+//        
+//        if(actions.has(UpdateOrderActivity.class)) {
+//            UpdateOrderActivity updateOrderActivity = actions.get(UpdateOrderActivity.class);
+//            createdOrder = new ClientOrder(order().withRandomItems().build());
+//            updateOrderActivity.updateOrder(createdOrder.getOrder());
+//            actions = updateOrderActivity.getActions();
+//            createdOrder = updateOrderActivity.getOrder();
+//        }
+//                
+//        if(actions.has(PaymentActivity.class)) {
+//            PaymentActivity paymentActivity = actions.get(PaymentActivity.class);
+//            paymentActivity.payForOrder(new Payment(createdOrder.getCost(), "Martin Fowler", "1234567890", 12, 2121));
+//            actions = paymentActivity.getActions();
+//        }
+//        
+//        if(actions.has(GetReceiptActivity.class)) {
+//            GetReceiptActivity getReceiptActivity = actions.get(GetReceiptActivity.class);
+//            getReceiptActivity.getReceiptForOrder();
+//            // Store the receipt
+//            fileReceipt(getReceiptActivity.getReceipt());
+//            actions = getReceiptActivity.getActions();
+//        }
+//        
+//        if(actions.has(ReadOrderActivity.class)) {
+//            ReadOrderActivity readOrderActivity = actions.get(ReadOrderActivity.class);
+//            readOrderActivity.readOrder();
+//            ClientOrder baristaOrder = readOrderActivity.getOrder();
+//            while(baristaOrder.getStatus() != OrderStatus.READY) {
+//                hangAround(ONE_MINUTE);
+//                readOrderActivity = actions.get(ReadOrderActivity.class);
+//                baristaOrder = readOrderActivity.getOrder();
+//            }
+//        }
     }
 
-    private static void hangAround(long backOffTimeInMillis) {
-        try {
-            Thread.sleep(backOffTimeInMillis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void fileReceipt(ReceiptRepresentation receipt) {
-        // Store the receipt, or not as your business logic dictates
-    }
+//    private static void fileReceipt(ReceiptRepresentation receipt) {
+//        // Store the receipt, or not as your business logic dictates
+//    }
 
     private static void happyPathTest(URI serviceUri) throws Exception {
         // Place the order
@@ -133,6 +126,14 @@ public class Entry {
             System.out.println("Binding to service at: " + args[0]);
         }
         return new URI(args[0]);
+    }
+
+    private static void hangAround(long backOffTimeInMillis) {
+        try {
+            Thread.sleep(backOffTimeInMillis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
