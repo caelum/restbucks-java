@@ -65,16 +65,20 @@ public class Entry {
 //        // Store the receipt, or not as your business logic dictates
 //    }
 
-    private static void happyPathTest(URI serviceUri) throws Exception {
+    private static void happyPathTest(URI uri) throws Exception {
     	
+        Server server = server();
+        server.configure(Order.class).include("items");
+
         // Place the order
-        System.out.println(String.format("About to start happy path test. Placing order at [%s] via POST", serviceUri.toString()));
+        System.out.println(String.format("About to start happy path test. Placing order at [%s] via POST", uri.toString()));
         Order order = order().withRandomItems().build();
-        order = service(serviceUri).custom(order).include("items").post();
-        List<Transition> transitions = resource(order).getTransitions();
-        for (Transition transition : transitions) {
-			System.out.println("Found " + transition.getRel() + " @ " + transition.getHref());
-		}
+        order = server.service(uri).custom(order).include("items").post();
+        
+//        List<Transition> transitions = resource(order).getTransitions();
+//        for (Transition transition : transitions) {
+//			System.out.println("Found " + transition.getRel() + " @ " + transition.getHref());
+//		}
         //  resource(order).getTransition("latest").getHref()
         //System.out.println(String.format("Order placed at [%s]", order.getLatestLink().getUri().toString()));
         
