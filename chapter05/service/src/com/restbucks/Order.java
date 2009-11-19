@@ -3,10 +3,13 @@ package com.restbucks;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import br.com.caelum.vraptor.rest.Restfulie;
 import br.com.caelum.vraptor.rest.StateResource;
 import br.com.caelum.vraptor.rest.Transition;
 
+@XStreamAlias("order")
 public class Order implements StateResource {
 
 	private String id;

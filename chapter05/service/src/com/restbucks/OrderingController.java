@@ -43,8 +43,7 @@ public class OrderingController {
 	public void get(Order order) {
 		order = database.getOrder(order.getId());
 		if (order != null) {
-			XmlSerializer serializer = result.use(xml()).from(order).namespace(
-					"http://restbucks.com/order", "o");
+			XmlSerializer serializer = result.use(xml()).from(order); //.namespace("http://restbucks.com/order", "o");
 			serializer.include("items");
 			serializer.include("payment").serialize();
 		} else {

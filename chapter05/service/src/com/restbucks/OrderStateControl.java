@@ -22,6 +22,7 @@ public class OrderStateControl implements StateControl<Order> {
 	public Order retrieve(String id) {
 		return database.getOrder(id);
 	}
+	
 //	
 //	public List<Transition> getTransitions(Restfulie control, Order order) {
 //		control.transition("cancel").resultsInStatus("cancelled").uses(OrderingController.class).cancel(order.getId());

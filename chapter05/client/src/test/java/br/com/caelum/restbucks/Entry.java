@@ -5,10 +5,12 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import br.com.caelum.restbucks.model.Order;
+import br.com.caelum.restfulie.Server;
 import br.com.caelum.restfulie.Transition;
 import static br.com.caelum.restbucks.model.Ordering.*;
 import static br.com.caelum.restfulie.EntryPointService.*;
 import static br.com.caelum.restfulie.Restfulie.resource;
+import static br.com.caelum.restfulie.Server.*;
 
 public class Entry {
 	
@@ -73,7 +75,10 @@ public class Entry {
         // Place the order
         System.out.println(String.format("About to start happy path test. Placing order at [%s] via POST", uri.toString()));
         Order order = order().withRandomItems().build();
-        order = server.service(uri).custom(order).include("items").post();
+        order = server.service(uri).post(order);
+        resource(order).getTransition("cancel").execute();
+        System.out.println(order.getId() + " was cancelled");
+//        order = server.service(uri).custom(order).include("items").post();
         
 //        List<Transition> transitions = resource(order).getTransitions();
 //        for (Transition transition : transitions) {
