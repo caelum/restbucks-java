@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 import br.com.caelum.vraptor.rest.Restfulie;
 import br.com.caelum.vraptor.rest.StateResource;
@@ -14,6 +15,7 @@ public class Order implements StateResource {
 
 	private String id;
 	private Location location;
+	@XStreamImplicit
 	private List<Item> items;
 
 	private String status;

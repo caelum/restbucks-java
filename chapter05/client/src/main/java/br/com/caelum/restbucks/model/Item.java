@@ -1,6 +1,7 @@
 package br.com.caelum.restbucks.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicitCollection;
 
 @XStreamAlias("item")
 public class Item {

@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import com.thoughtworks.xstream.annotations.XStreamImplicitCollection;
 
 @XStreamAlias("order")
 public class Order {
 
 	private String id;
 	private Location location;
+	
 	private List<Item> items;
 
 	private String status;

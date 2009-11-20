@@ -68,12 +68,14 @@ public class Entry {
     private static void happyPathTest(URI uri) throws Exception {
     	
         Resources server = Restfulie.server();
-        server.configure(Order.class).include("items");
+        server.configure(Order.class).implicit("items");
 
         // Place the order
         System.out.println(String.format("About to start happy path test. Placing order at [%s] via POST", uri.toString()));
         Order order = order().withRandomItems().build();
         order = server.entryAt(uri).post(order);
+        
+        System.out.println(order.getId() + " created just fine...");
         
         resource(order).getTransition("cancel").execute();
         System.out.println(order.getId() + " was cancelled");
