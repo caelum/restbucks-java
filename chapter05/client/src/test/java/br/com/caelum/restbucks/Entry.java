@@ -1,16 +1,14 @@
 package br.com.caelum.restbucks;
 
+import static br.com.caelum.restbucks.model.Ordering.order;
+import static br.com.caelum.restfulie.Restfulie.resource;
+
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 
 import br.com.caelum.restbucks.model.Order;
-import br.com.caelum.restfulie.Server;
-import br.com.caelum.restfulie.Transition;
-import static br.com.caelum.restbucks.model.Ordering.*;
-import static br.com.caelum.restfulie.EntryPointService.*;
-import static br.com.caelum.restfulie.Restfulie.resource;
-import static br.com.caelum.restfulie.Server.*;
+import br.com.caelum.restfulie.Resources;
+import br.com.caelum.restfulie.Restfulie;
 
 public class Entry {
 	
@@ -69,20 +67,13 @@ public class Entry {
 
     private static void happyPathTest(URI uri) throws Exception {
     	
-        Order order = order().withRandomItems().build();        
-        order = service(uri).post(order);
-        Receipt receipt = resource(order).getTransition("pay").inCase(matches(whatever())).execute(payment);
-        
-
-        
-    	
-        Server server = server();
+        Resources server = Restfulie.server();
         server.configure(Order.class).include("items");
 
         // Place the order
         System.out.println(String.format("About to start happy path test. Placing order at [%s] via POST", uri.toString()));
         Order order = order().withRandomItems().build();
-        order = server.service(uri).post(order);
+        order = server.entryAt(uri).post(order);
         
         resource(order).getTransition("cancel").execute();
         System.out.println(order.getId() + " was cancelled");
