@@ -75,19 +75,7 @@ public class Entry {
         Order order = order().withRandomItems().build();
         order = server.entryAt(uri).post(order);
         
-        System.out.println(order.getId() + " created just fine...");
-        
-        resource(order).getTransition("cancel").execute();
-        System.out.println(order.getId() + " was cancelled");
-        
-//        order = server.service(uri).custom(order).include("items").post();
-        
-//        List<Transition> transitions = resource(order).getTransitions();
-//        for (Transition transition : transitions) {
-//			System.out.println("Found " + transition.getRel() + " @ " + transition.getHref());
-//		}
-        //  resource(order).getTransition("latest").getHref()
-        //System.out.println(String.format("Order placed at [%s]", order.getLatestLink().getUri().toString()));
+        System.out.println(String.format("Order placed at [%s]", resource(order).getTransition("latest").getHref()));
         
         // Try to update a different order
 //        System.out.println(String.format("About to update an order with bad URI [%s] via POST", orderRepresentation.getUpdateLink().getUri().toString() + "/bad-uri"));
