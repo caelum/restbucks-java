@@ -69,6 +69,13 @@ public class Entry {
 
     private static void happyPathTest(URI uri) throws Exception {
     	
+        Order order = order().withRandomItems().build();        
+        order = service(uri).post(order);
+        Receipt receipt = resource(order).getTransition("pay").inCase(matches(whatever())).execute(payment);
+        
+
+        
+    	
         Server server = server();
         server.configure(Order.class).include("items");
 
@@ -76,8 +83,10 @@ public class Entry {
         System.out.println(String.format("About to start happy path test. Placing order at [%s] via POST", uri.toString()));
         Order order = order().withRandomItems().build();
         order = server.service(uri).post(order);
+        
         resource(order).getTransition("cancel").execute();
         System.out.println(order.getId() + " was cancelled");
+        
 //        order = server.service(uri).custom(order).include("items").post();
         
 //        List<Transition> transitions = resource(order).getTransitions();
