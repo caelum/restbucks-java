@@ -7,8 +7,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import br.com.caelum.restbucks.model.Order;
+import br.com.caelum.restbucks.model.Payment;
 import br.com.caelum.restfulie.Resources;
 import br.com.caelum.restfulie.Restfulie;
+import br.com.caelum.restfulie.http.HttpMethod;
 
 public class Entry {
 	
@@ -77,13 +79,6 @@ public class Entry {
         
         System.out.println(String.format("Order placed at [%s]", resource(order).getTransition("latest").getHref()));
         
-        // Try to update a different order
-//        System.out.println(String.format("About to update an order with bad URI [%s] via POST", orderRepresentation.getUpdateLink().getUri().toString() + "/bad-uri"));
-//        order = order().withRandomItems().build();
-//        Link badLink = new Link("bad", new RestbucksUri(orderRepresentation.getLatestLink().getUri().toString() + "/bad-uri"), RESTBUCKS_MEDIA_TYPE);
-//        ClientResponse badUpdateResponse = client.resource(badLink.getUri()).accept(badLink.getMediaType()).type(badLink.getMediaType()).post(ClientResponse.class, new OrderRepresentation(order));
-//        System.out.println(String.format("Tried to update order with bad URI at [%s] via POST, outcome [%d]", badLink.getUri().toString(), badUpdateResponse.getStatus()));
-//        
 //        // Change the order
 //        System.out.println(String.format("About to update order at [%s] via POST", orderRepresentation.getUpdateLink().getUri().toString()));
 //        order = order().withRandomItems().build();
@@ -92,11 +87,11 @@ public class Entry {
 //        System.out.println(String.format("Order updated at [%s]", updatedRepresentation.getLatestLink().getUri().toString()));
 //        
 //        // Pay for the order 
-//        System.out.println(String.format("About to create a payment resource at [%s] via PUT", updatedRepresentation.getPaymentLink().getUri().toString()));
-//        Link paymentLink = updatedRepresentation.getPaymentLink();
-//        Payment payment = new Payment(updatedRepresentation.getCost(), "A.N. Other", "12345677878", 12, 2999);
-//        PaymentRepresentation  paymentRepresentation = client.resource(paymentLink.getUri()).accept(paymentLink.getMediaType()).type(paymentLink.getMediaType()).put(PaymentRepresentation.class, new PaymentRepresentation(payment));
-//        System.out.println(String.format("Payment made, receipt at [%s]", paymentRepresentation.getReceiptLink().getUri().toString()));
+        Payment payment = new Payment("12345677878", "guilherme silveira", 12, 2999, order.getCost());
+        System.out.println("It will cost me " + order.getCost());
+        System.out.println(String.format("About to create a payment resource at [%s] via PUT", resource(order).getTransition("pay").getHref()));
+        payment = resource(order).getTransition("pay").method(HttpMethod.PUT).executeAndRetrieve(payment);
+        System.out.println(String.format("Payment made, receipt at [%s]", resource(paymentRepresentation).getTransition("receipt").getHref()));
 //        
 //        // Get a receipt
 //        System.out.println(String.format("About to request a receipt from [%s] via GET", paymentRepresentation.getReceiptLink().getUri().toString()));

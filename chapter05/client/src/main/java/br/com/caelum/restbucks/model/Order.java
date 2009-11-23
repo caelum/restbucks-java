@@ -1,11 +1,10 @@
 package br.com.caelum.restbucks.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
-import com.thoughtworks.xstream.annotations.XStreamImplicitCollection;
 
 @XStreamAlias("order")
 public class Order {
@@ -67,6 +66,14 @@ public class Order {
 
 	public void add(Item item) {
 		this.items.add(item);
+	}
+
+	public BigDecimal getCost() {
+		BigDecimal total = BigDecimal.ZERO;
+		for (Item item : items) {
+			total= total.add(item.getPrice());
+		}
+		return total;
 	}
 	
 }
