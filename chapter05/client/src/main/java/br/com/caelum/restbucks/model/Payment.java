@@ -2,6 +2,9 @@ package br.com.caelum.restbucks.model;
 
 import java.math.BigDecimal;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias("payment")
 public class Payment {
 
 	private String cardNumber;

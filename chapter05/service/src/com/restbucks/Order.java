@@ -20,6 +20,7 @@ public class Order implements StateResource {
 
 	private String status;
 	private Payment payment;
+	private Receipt receipt;
 
 	public enum Location {
 		takeAway, drinkIn
@@ -63,6 +64,7 @@ public class Order implements StateResource {
 
 	public void pay(Payment payment) {
 		status = "paid";
+		this.receipt = new Receipt();
 		this.payment = payment;
 	}
 
@@ -72,6 +74,10 @@ public class Order implements StateResource {
 	
 	public Payment getPayment() {
 		return payment;
+	}
+
+	public Receipt getReceipt() {
+		return receipt;
 	}
 
 }

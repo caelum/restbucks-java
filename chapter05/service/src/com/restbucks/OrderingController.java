@@ -82,7 +82,7 @@ public class OrderingController {
 	public void pay(Order order, Payment payment) {
 		order = database.getOrder(order.getId());
 		order.pay(payment);
-		status.ok();
+		result.use(xml()).from(order.getReceipt()).serialize();
 	}
 
 	@Get
