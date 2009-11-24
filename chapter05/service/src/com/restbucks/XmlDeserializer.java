@@ -1,6 +1,6 @@
 package com.restbucks;
 
-import br.com.caelum.vraptor.deserialization.XStreamXmlDeserializer;
+import br.com.caelum.vraptor.deserialization.XStreamXMLDeserializer;
 import br.com.caelum.vraptor.http.ParameterNameProvider;
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
@@ -14,7 +14,7 @@ import com.thoughtworks.xstream.XStream;
  */
 @Component
 @ApplicationScoped
-public class XmlDeserializer extends XStreamXmlDeserializer {
+public class XmlDeserializer extends XStreamXMLDeserializer {
 
 	public XmlDeserializer(ParameterNameProvider provider) {
 		super(provider);

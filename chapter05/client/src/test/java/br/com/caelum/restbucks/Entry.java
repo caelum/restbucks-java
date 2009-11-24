@@ -8,9 +8,10 @@ import java.net.URISyntaxException;
 
 import br.com.caelum.restbucks.model.Order;
 import br.com.caelum.restbucks.model.Payment;
+import br.com.caelum.restbucks.model.Receipt;
 import br.com.caelum.restfulie.Resources;
+import br.com.caelum.restfulie.Response;
 import br.com.caelum.restfulie.Restfulie;
-import br.com.caelum.restfulie.http.HttpMethod;
 
 public class Entry {
 	
@@ -72,31 +73,24 @@ public class Entry {
         Resources server = Restfulie.resources();
         server.configure(Order.class).implicit("items");
         server.configure(Payment.class);
+        server.configure(Receipt.class);
 
         // Place the order
         System.out.println(String.format("About to start happy path test. Placing order at [%s] via POST", uri.toString()));
         Order order = order().withRandomItems().build();
         order = server.entryAt(uri).post(order);
         
-        System.out.println(String.format("Order placed at [%s]", resource(order).getTransition("latest").getHref()));
+        System.out.println(String.format("Order placed at [%s]", order.getLatestUri()));
         
-//        // Change the order
-//        System.out.println(String.format("About to update order at [%s] via POST", orderRepresentation.getUpdateLink().getUri().toString()));
-//        order = order().withRandomItems().build();
-//        Link updateLink = orderRepresentation.getUpdateLink();
-//        OrderRepresentation updatedRepresentation = client.resource(updateLink.getUri()).accept(updateLink.getMediaType()).type(updateLink.getMediaType()).post(OrderRepresentation.class, new OrderRepresentation(order));
-//        System.out.println(String.format("Order updated at [%s]", updatedRepresentation.getLatestLink().getUri().toString()));
-//        
-//        // Pay for the order 
+        // Pay for the order 
         Payment payment = new Payment("12345677878", "guilherme silveira", 12, 2999, order.getCost());
-        System.out.println("It will cost me " + order.getCost());
         System.out.println(String.format("About to create a payment resource at [%s] via PUT", resource(order).getTransition("pay").getHref()));
-        Receipt receipt = resource(order).getTransition("pay").executeAndRetrieve(payment);
+        Receipt receipt =  order.pay(payment);
         System.out.println("Payment made, receipt created at: " + receipt.getPaymentTime().getTime());
 
         // Check on the order status
-        System.out.println(String.format("About to check order status at [%s] via GET", receipt.getTransition("order").getHref()));
-        OrderRepresentation finalOrder = resource(receipt).getTransition("order").execute();
+        System.out.println(String.format("About to check order status at [%s] via GET", resource(receipt).getTransition("order").getHref()));
+        Order finalOrder = resource(receipt).getTransition("order").executeAndRetrieve();
         System.out.println(String.format("Final order placed, current status [%s]", finalOrder.getStatus()));
         
         // Allow the barista some time to make the order
@@ -104,11 +98,11 @@ public class Entry {
         System.in.read();
         
         // Take the order if possible
-        System.out.println(String.format("Trying to take the ready order from [%s] via DELETE. Note: the internal state machine must progress the order to ready before this should work, otherwise expect a 405 response.", receiptRepresentation.getOrderLink().getUri().toString()));
-        ClientResponse finalResponse = client.resource(orderLink.getUri()).delete(ClientResponse.class);
-        System.out.println(String.format("Tried to take final order, HTTP status [%d]", finalResponse.getStatus()));
-        if(finalResponse.getStatus() == 200) {
-            System.out.println(String.format("Order status [%s], enjoy your drink", finalResponse.getEntity(OrderRepresentation.class).getStatus()));
+        System.out.println(String.format("Trying to take the ready order from [%s] via DELETE. Note: the internal state machine must progress the order to ready before this should work, otherwise expect a 405 response.", resource(receipt).getTransition("order").getHref()));
+        Response finalResponse = resource(order).getTransition("retrieve").execute();
+        System.out.println(String.format("Tried to take final order, HTTP status [%d]", finalResponse.getCode()));
+        if(finalResponse.getCode() == 200) {
+            System.out.println(String.format("Order status [%s], enjoy your drink", finalResponse.getCode()));
         }
     }
     

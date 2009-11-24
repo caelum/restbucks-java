@@ -1,5 +1,7 @@
 package br.com.caelum.restbucks.model;
 
+import static br.com.caelum.restfulie.Restfulie.resource;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,15 +49,6 @@ public class Order {
 		return status;
 	}
 
-	public void cancel() {
-		status = "cancelled";
-	}
-
-	public void pay(Payment payment) {
-		status = "paid";
-		this.payment = payment;
-	}
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
@@ -74,6 +67,18 @@ public class Order {
 			total= total.add(item.getPrice());
 		}
 		return total;
+	}
+
+	public String getLatestUri() {
+		return resource(this).getTransition("latest").getHref();
+	}
+	
+	public Receipt pay(Payment payment) {
+		return resource(this).getTransition("pay").executeAndRetrieve(payment);
+	}
+
+	public void cancel() {
+		resource(this).getTransition("cancel").execute();
 	}
 	
 }

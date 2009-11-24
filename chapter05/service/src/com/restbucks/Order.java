@@ -64,7 +64,7 @@ public class Order implements StateResource {
 
 	public void pay(Payment payment) {
 		status = "paid";
-		this.receipt = new Receipt();
+		this.receipt = new Receipt(this);
 		this.payment = payment;
 	}
 
