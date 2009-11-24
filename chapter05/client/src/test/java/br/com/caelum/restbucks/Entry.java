@@ -19,55 +19,7 @@ public class Entry {
 	public static void main(String[] args) throws Exception {
 		URI uri = processCommandLineArgs(args);
 		happyPathTest(uri);
-//        exampleForBook(serviceUri);
     }
-	    
-    private static void exampleForBook(URI entryPointUri) {
-//        Order order = order().withRandomItems().build();
-//        
-//        PlaceOrderActivity placeOrderActivity = new PlaceOrderActivity();
-//        placeOrderActivity.placeOrder(order, entryPointUri);
-//        ClientOrder createdOrder = placeOrderActivity.getOrder();
-//        // Do something with the order
-//        Actions actions = placeOrderActivity.getActions();
-//        
-//        if(actions.has(UpdateOrderActivity.class)) {
-//            UpdateOrderActivity updateOrderActivity = actions.get(UpdateOrderActivity.class);
-//            createdOrder = new ClientOrder(order().withRandomItems().build());
-//            updateOrderActivity.updateOrder(createdOrder.getOrder());
-//            actions = updateOrderActivity.getActions();
-//            createdOrder = updateOrderActivity.getOrder();
-//        }
-//                
-//        if(actions.has(PaymentActivity.class)) {
-//            PaymentActivity paymentActivity = actions.get(PaymentActivity.class);
-//            paymentActivity.payForOrder(new Payment(createdOrder.getCost(), "Martin Fowler", "1234567890", 12, 2121));
-//            actions = paymentActivity.getActions();
-//        }
-//        
-//        if(actions.has(GetReceiptActivity.class)) {
-//            GetReceiptActivity getReceiptActivity = actions.get(GetReceiptActivity.class);
-//            getReceiptActivity.getReceiptForOrder();
-//            // Store the receipt
-//            fileReceipt(getReceiptActivity.getReceipt());
-//            actions = getReceiptActivity.getActions();
-//        }
-//        
-//        if(actions.has(ReadOrderActivity.class)) {
-//            ReadOrderActivity readOrderActivity = actions.get(ReadOrderActivity.class);
-//            readOrderActivity.readOrder();
-//            ClientOrder baristaOrder = readOrderActivity.getOrder();
-//            while(baristaOrder.getStatus() != OrderStatus.READY) {
-//                hangAround(ONE_MINUTE);
-//                readOrderActivity = actions.get(ReadOrderActivity.class);
-//                baristaOrder = readOrderActivity.getOrder();
-//            }
-//        }
-    }
-
-//    private static void fileReceipt(ReceiptRepresentation receipt) {
-//        // Store the receipt, or not as your business logic dictates
-//    }
 
     private static void happyPathTest(URI uri) throws Exception {
     	
@@ -91,7 +43,7 @@ public class Entry {
 
         // Check on the order status
         System.out.println(String.format("About to check order status at [%s] via GET", resource(receipt).getTransition("order").getHref()));
-        Order finalOrder = resource(receipt).getTransition("order").method(HttpMethod.GET).executeAndRetrieve();
+        Order finalOrder = receipt.getOrder();
         System.out.println(String.format("Final order placed, current status [%s]", finalOrder.getStatus()));
         
         // Allow the barista some time to make the order
@@ -100,7 +52,8 @@ public class Entry {
         
         // Take the order if possible
         System.out.println(String.format("Trying to take the ready order from [%s] via DELETE. Note: the internal state machine must progress the order to ready before this should work, otherwise expect a 405 response.", resource(receipt).getTransition("order").getHref()));
-        Response finalResponse = resource(order).getTransition("retrieve").method(HttpMethod.DELETE).execute();
+        finalOrder = receipt.getOrder();
+        Response finalResponse = resource(finalOrder).getTransition("retrieve").method(HttpMethod.DELETE).execute();
         System.out.println(String.format("Tried to take final order, HTTP status [%d]", finalResponse.getCode()));
         if(finalResponse.getCode() == 200) {
             System.out.println(String.format("Order status [%s], enjoy your drink", finalResponse.getCode()));
@@ -119,14 +72,6 @@ public class Entry {
             System.out.println("Binding to service at: " + args[0]);
         }
         return new URI(args[0]);
-    }
-
-    private static void hangAround(long backOffTimeInMillis) {
-        try {
-            Thread.sleep(backOffTimeInMillis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }
