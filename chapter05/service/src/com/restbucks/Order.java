@@ -60,7 +60,7 @@ public class Order implements StateResource {
 //			 when(invalidState()).then(customWhatever());
 		}
 		if(status.equals("paid") && receipt.getPaymentTime().before(oneMinuteAgo())) {
-			control.transition(OrderingController.class).cancel(this);
+			control.transition("retrieve").uses(OrderingController.class).cancel(this);
 		}
 		return control.getTransitions();
 	}
