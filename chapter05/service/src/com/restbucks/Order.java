@@ -1,14 +1,14 @@
 package com.restbucks;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 import br.com.caelum.vraptor.rest.Restfulie;
 import br.com.caelum.vraptor.rest.StateResource;
 import br.com.caelum.vraptor.rest.Transition;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 @XStreamAlias("order")
 public class Order implements StateResource {
@@ -54,12 +54,21 @@ public class Order implements StateResource {
 	public List<Transition> getFollowingTransitions(Restfulie control) {
 		if (status.equals("unpaid")) {
 			control.transition("latest").uses(OrderingController.class).get(this);
-//				 when(notFound()).then(404);
-//				 when(invalidState()).then(customWhatever());
 			control.transition("cancel").uses(OrderingController.class).cancel(this);
 			control.transition("pay").uses(OrderingController.class).pay(this,null);
+//			 when(notFound()).then(404);
+//			 when(invalidState()).then(customWhatever());
+		}
+		if(status.equals("paid") && receipt.getPaymentTime().before(oneMinuteAgo())) {
+			control.transition(OrderingController.class).cancel(this);
 		}
 		return control.getTransitions();
+	}
+
+	private Calendar oneMinuteAgo() {
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MINUTE, -1);
+		return c;
 	}
 
 	public void pay(Payment payment) {
@@ -78,6 +87,10 @@ public class Order implements StateResource {
 
 	public Receipt getReceipt() {
 		return receipt;
+	}
+
+	public void finish() {
+		status = "retrieved by the client";
 	}
 
 }

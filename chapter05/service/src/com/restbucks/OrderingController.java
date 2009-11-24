@@ -65,7 +65,11 @@ public class OrderingController {
 	@Transition
 	public void cancel(Order order) {
 		order = database.getOrder(order.getId());
-		order.cancel();
+		if(order.getStatus().equals("paid")) {
+			order.finish();
+		} else {
+			order.cancel();
+		}
 		status.ok();
 	}
 	

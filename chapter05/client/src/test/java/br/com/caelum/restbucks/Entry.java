@@ -12,6 +12,7 @@ import br.com.caelum.restbucks.model.Receipt;
 import br.com.caelum.restfulie.Resources;
 import br.com.caelum.restfulie.Response;
 import br.com.caelum.restfulie.Restfulie;
+import br.com.caelum.restfulie.http.HttpMethod;
 
 public class Entry {
 	
@@ -90,7 +91,7 @@ public class Entry {
 
         // Check on the order status
         System.out.println(String.format("About to check order status at [%s] via GET", resource(receipt).getTransition("order").getHref()));
-        Order finalOrder = resource(receipt).getTransition("order").executeAndRetrieve();
+        Order finalOrder = resource(receipt).getTransition("order").method(HttpMethod.GET).executeAndRetrieve();
         System.out.println(String.format("Final order placed, current status [%s]", finalOrder.getStatus()));
         
         // Allow the barista some time to make the order
@@ -99,7 +100,7 @@ public class Entry {
         
         // Take the order if possible
         System.out.println(String.format("Trying to take the ready order from [%s] via DELETE. Note: the internal state machine must progress the order to ready before this should work, otherwise expect a 405 response.", resource(receipt).getTransition("order").getHref()));
-        Response finalResponse = resource(order).getTransition("retrieve").execute();
+        Response finalResponse = resource(order).getTransition("retrieve").method(HttpMethod.DELETE).execute();
         System.out.println(String.format("Tried to take final order, HTTP status [%d]", finalResponse.getCode()));
         if(finalResponse.getCode() == 200) {
             System.out.println(String.format("Order status [%s], enjoy your drink", finalResponse.getCode()));
